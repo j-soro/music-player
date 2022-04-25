@@ -68,7 +68,11 @@ body {
 
 .button svg {
   fill: rgb(202 202 202);
-  stroke: blue;
+}
+
+.button svg:hover {
+  fill: rgb(209 230 95);
+  cursor: pointer;
 }
 
 .progress-bar {

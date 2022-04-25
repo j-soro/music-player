@@ -6,25 +6,45 @@ const songsList = [
 
 const playButton = document.querySelector(".play");
 const pauseButton = document.querySelector(".pause");
+const prevButton = document.querySelector(".prev");
+const nextButton = document.querySelector(".next");
 
-const url = songsList[0];
-const song = new Audio(url);
+let url = songsList[0];
+let song = new Audio(url);
+let currentSong = 0;
 
 const playSong = () => {
-  console.log("Reproduciendo...");
+  prepareSong();
+
   song.play();
   updateSongData();
+};
+
+const prepareSong = () => {
+  song.pause();
+  url = songsList[currentSong];
+  song = new Audio(url);
 };
 
 const pauseSong = () => {
   song.pause();
 };
 
+const prevSong = () => {
+  if (currentSong > 0) { currentSong--; }
+  playSong();
+};
+
+const nextSong = () => {
+  if (currentSong < songsList.length - 1) { currentSong++; }
+  playSong();
+};
+
 const updateSongData = () => {
-  const songTitle = songsList[0];
+  const songTitle = songsList[currentSong];
   const cleanSong = cleanName(songTitle);
   document.querySelector(".song-title").textContent = cleanSong;
-  const songArtist = "Monkey Island";
+  document.querySelector(".song-artist").textContent = "Monkey Island OST";
 };
 
 const cleanName = (url) => {
@@ -37,3 +57,5 @@ const cleanName = (url) => {
 
 playButton.addEventListener("click", () => playSong());
 pauseButton.addEventListener("click", () => pauseSong());
+prevButton.addEventListener("click", () => prevSong());
+nextButton.addEventListener("click", () => nextSong());
