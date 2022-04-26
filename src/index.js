@@ -8,22 +8,24 @@ const playButton = document.querySelector(".play");
 const pauseButton = document.querySelector(".pause");
 const prevButton = document.querySelector(".prev");
 const nextButton = document.querySelector(".next");
+const progressBar = document.querySelector(".progress");
 
 let url = songsList[0];
 let song = new Audio(url);
 let currentSong = 0;
 
-const playSong = () => {
-  prepareSong();
-
-  song.play();
-  updateSongData();
-};
-
 const prepareSong = () => {
   song.pause();
   url = songsList[currentSong];
   song = new Audio(url);
+  setTimeout(() => progressBar.setAttribute("max", song.duration), 3000);
+  song.addEventListener("timeUpdate", (ev) => onUpdateTimeSong(ev));
+};
+
+const playSong = () => {
+  prepareSong();
+  song.play().then(data => console.dir(data));
+  updateSongData();
 };
 
 const pauseSong = () => {
@@ -53,6 +55,10 @@ const cleanName = (url) => {
     .replaceAll("%20", " ");
 
   return text;
+};
+
+const onUpdateTimeSong = (ev) => {
+  progressBar.setAttribute("value", ev.timeStamp);
 };
 
 playButton.addEventListener("click", () => playSong());
